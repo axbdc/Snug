@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// Só vocês os dois têm acesso. Troca os dois UIDs pelos vossos
+// (Firebase Console > Authentication > Users > coluna "User UID").
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function somosNos() {
+      return request.auth != null
+        && request.auth.uid in ['UID_DO_ALEX', 'UID_DA_MARTA'];
+    }
+
+    // Cada um só altera o próprio perfil e a própria localização
+    match /perfis/{uid} {
+      allow read: if somosNos();
+      allow write: if somosNos() && request.auth.uid == uid;
+    }
+
+    match /localizacoes/{uid} {
+      allow read: if somosNos();
+      allow write: if somosNos() && request.auth.uid == uid;
+    }
+
+    // Ideias, momentos e fotos são partilhados pelos dois
+    match /ideias/{id} {
+      allow read, write: if somosNos();
+    }
+
+    match /momentos/{id} {
+      allow read, write: if somosNos();
+    }
+
+    match /fotos/{id} {
+      allow read, delete: if somosNos();
+      allow create, update: if somosNos() && request.resource.data.data.size() < 1000000;
+    }
+  }
+}

@@ -38,7 +38,7 @@ export function Configurar() {
         <h1 className="marca-texto" style={{ fontSize: 54 }}>
           Quem és tu?
         </h1>
-        <p>O teu boneco e a tua cor aparecem na app e no widget da distância.</p>
+        <p>O teu boneco e a tua cor aparecem na app, junto à distância entre vocês.</p>
         <div className="campo">
           <label htmlFor="nome">Nome</label>
           <input

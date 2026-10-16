@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown, LogOut, RefreshCw, Smartphone } from 'lucide-react';
+import { LogOut, RefreshCw } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -40,7 +40,7 @@ function useContagem(alvo: number | null) {
   return valor;
 }
 
-/** Os dois bonecos ligados por um tracejado com dois corações, como no widget. */
+/** Os dois bonecos ligados por um tracejado com dois corações. */
 function Casal({ eu, parceiro, juntos }: { eu: Perfil; parceiro: Perfil | null; juntos: boolean }) {
   const corOutro: Cor = parceiro?.cor ?? (eu.cor === 'azul' ? 'rosa' : 'azul');
   const mola = { type: 'spring' as const, stiffness: 90, damping: 14 };
@@ -99,7 +99,6 @@ export function Nos({ ideias, carregado }: { ideias: Ideia[]; carregado: boolean
   const dela = useDocumento<Localizacao>(parceiro ? `localizacoes/${parceiro.id}` : null);
   const [aAtualizar, setAAtualizar] = useState(false);
   const [erroLoc, setErroLoc] = useState('');
-  const [verWidget, setVerWidget] = useState(false);
   const [aCarregar, setACarregar] = useState(false);
   const [msgSeed, setMsgSeed] = useState('');
 
@@ -241,51 +240,6 @@ export function Nos({ ideias, carregado }: { ideias: Ideia[]; carregado: boolean
             {aCarregar ? 'A repor...' : 'Repor'}
           </button>
         </div>
-      </div>
-
-      <h2 className="seccao-titulo">Widget no ecrã bloqueado</h2>
-      <div className="papel" style={{ padding: '2px 18px' }}>
-        <button
-          className="linha-opcao"
-          style={{ width: '100%', textAlign: 'left', borderBottom: verWidget ? undefined : 'none' }}
-          onClick={() => setVerWidget((v) => !v)}
-          aria-expanded={verWidget}
-        >
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <div className="marca">
-              <Smartphone size={20} />
-            </div>
-            <div>
-              <div style={{ fontWeight: 600 }}>Ver a distância sem abrir a app</div>
-              <div className="linha-meta">Com a app grátis Scriptable</div>
-            </div>
-          </div>
-          <motion.span animate={{ rotate: verWidget ? 180 : 0 }} style={{ display: 'grid' }}>
-            <ChevronDown size={20} />
-          </motion.span>
-        </button>
-        <AnimatePresence initial={false}>
-          {verWidget && (
-            <motion.ol
-              className="passos"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              style={{ overflow: 'hidden', paddingTop: 12, paddingBottom: 12 }}
-            >
-              <li>Instala a app Scriptable da App Store.</li>
-              <li>
-                Abre <a href="/widget.txt" target="_blank" rel="noreferrer">{location.host}/widget.txt</a> no Safari,
-                seleciona tudo e copia.
-              </li>
-              <li>No Scriptable, toca em + e cola. Dá-lhe o nome Nós Dois.</li>
-              <li>Corre o script uma vez (botão play) e entra com o teu email e password.</li>
-              <li>Quando pedir localização, escolhe "Ao usar a app ou widgets".</li>
-              <li>No ecrã bloqueado, mantém pressionado, toca em Personalizar e adiciona o widget Scriptable.</li>
-              <li>Toca no widget e escolhe o script.</li>
-            </motion.ol>
-          )}
-        </AnimatePresence>
       </div>
 
       <button className="btn btn-texto btn-largo" style={{ marginTop: 24 }} onClick={() => signOut(auth)}>

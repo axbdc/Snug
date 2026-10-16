@@ -1,6 +1,6 @@
 # Nós Dois
 
-Webapp para dois: sorteio de dates, sítios com mapa, momentos com fotos e notas, e a distância entre vocês (também num widget no ecrã bloqueado do iPhone).
+Webapp para dois: sorteio de dates, sítios com mapa, momentos com fotos e notas, e a distância entre vocês, com os vossos bonecos (macaco e suricata).
 
 Cada pessoa tem a sua cor: azul de azulejo ou rosa da Rua Cor-de-Rosa. A app inteira muda de tema conforme quem entra; o amarelo do elétrico é a cor partilhada. O sorteio funciona como um letreiro de elétrico que folheia até parar no destino, os momentos aparecem como fotografias impressas e a distância é uma linha de elétrico entre os dois.
 
@@ -44,26 +44,17 @@ Abre o endereço que aparece no terminal.
 4. No separador **Sorteio**, carrega em *Carregar ideias* (49 ideias de Lisboa e arredores).
 5. No separador **Nós**, liga *Partilhar a minha localização* e aceita o pedido do iPhone.
 
-## 5. Widget no ecrã bloqueado
+## 5. Distância entre os dois
 
-Uma webapp não consegue criar widgets no iOS, por isso o widget usa a app grátis **Scriptable**, que lê os mesmos dados do Firebase.
+No separador **Nós**, cada um liga *Partilhar a minha localização*. A distância aparece quando os dois tiverem partilhado.
 
-1. Instala o **Scriptable** da App Store.
-2. No Safari do iPhone, abre `https://snug-six.vercel.app/widget.txt`. É o script já preenchido com os dados do Firebase e o link da app: a Vercel gera-o em cada deploy a partir das variáveis de ambiente, por isso as chaves não ficam no GitHub.
-3. Seleciona tudo, copia, e no Scriptable toca em `+`, cola e dá-lhe o nome `Nós Dois`.
-4. Corre o script uma vez (botão play). Pede o email e a password (ficam guardados no Keychain do iPhone, não no script).
-5. Quando pedir localização, escolhe **Ao usar a app ou widgets**.
-6. Ecrã bloqueado: mantém pressionado > *Personalizar* > *Ecrã bloqueado* > toca na zona dos widgets > **Scriptable** > escolhe o formato (retangular é o que mostra mais) > toca no widget > *Script*: `Nós Dois`.
-
-O widget mostra "A nossa distância" e os vossos bonecos (macaco e suricata) ligados por corações. No ecrã bloqueado o iOS pinta-o no tom do teu fundo; no ecrã principal aparece a cores, como um pequeno letreiro de elétrico.
-
-Cada um faz isto no seu iPhone, com a sua própria conta.
+Não há widget no ecrã bloqueado: no iPhone isso só é possível numa app nativa instalada pela App Store, e uma webapp não consegue.
 
 ### Como a distância se mantém atualizada
 
 - Com a app aberta: atualiza ao abrir e de 5 em 5 minutos.
-- Com o widget: o próprio widget envia a tua localização sempre que o iOS o atualiza (normalmente a cada 15 a 30 minutos; o iOS decide, não dá para forçar).
-- Se alguém desligar a partilha na app, o widget também deixa de enviar.
+- Com a app fechada, o iPhone não deixa a página ler a localização; atualiza na próxima vez que alguém a abrir.
+- Se alguém desligar a partilha, a distância deixa de aparecer para os dois.
 
 ## Estrutura
 
@@ -75,7 +66,6 @@ src/
   componentes/            folhas, mapa, formulários, controlos animados
   lib/                    filtros do sorteio, geo, fotos, localização
   data/                   ideias de Lisboa (seed) e coordenadas
-widget/distancia-scriptable.js
 firestore.rules
 ```
 

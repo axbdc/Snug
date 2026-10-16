@@ -274,8 +274,12 @@ export function Nos({ ideias, carregado }: { ideias: Ideia[]; carregado: boolean
               style={{ overflow: 'hidden', paddingTop: 12, paddingBottom: 12 }}
             >
               <li>Instala a app Scriptable da App Store.</li>
-              <li>Cria um script novo e cola o conteúdo do ficheiro do widget que vem com a app.</li>
-              <li>Corre o script uma vez dentro do Scriptable e entra com o teu email e password.</li>
+              <li>
+                Abre <a href="/widget.txt" target="_blank" rel="noreferrer">{location.host}/widget.txt</a> no Safari,
+                seleciona tudo e copia.
+              </li>
+              <li>No Scriptable, toca em + e cola. Dá-lhe o nome Nós Dois.</li>
+              <li>Corre o script uma vez (botão play) e entra com o teu email e password.</li>
               <li>Quando pedir localização, escolhe "Ao usar a app ou widgets".</li>
               <li>No ecrã bloqueado, mantém pressionado, toca em Personalizar e adiciona o widget Scriptable.</li>
               <li>Toca no widget e escolhe o script.</li>

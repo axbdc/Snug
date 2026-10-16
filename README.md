@@ -49,8 +49,8 @@ Abre o endereço que aparece no terminal.
 Uma webapp não consegue criar widgets no iOS, por isso o widget usa a app grátis **Scriptable**, que lê os mesmos dados do Firebase.
 
 1. Instala o **Scriptable** da App Store.
-2. Abre `widget/distancia-scriptable.js`, preenche `FIREBASE_API_KEY`, `FIREBASE_PROJECT_ID` e `LINK_DA_APP` no topo.
-3. No Scriptable: `+` > cola o script > dá-lhe o nome `Nós Dois`.
+2. No Safari do iPhone, abre `https://snug-six.vercel.app/widget.txt`. É o script já preenchido com os dados do Firebase e o link da app: a Vercel gera-o em cada deploy a partir das variáveis de ambiente, por isso as chaves não ficam no GitHub.
+3. Seleciona tudo, copia, e no Scriptable toca em `+`, cola e dá-lhe o nome `Nós Dois`.
 4. Corre o script uma vez (botão play). Pede o email e a password (ficam guardados no Keychain do iPhone, não no script).
 5. Quando pedir localização, escolhe **Ao usar a app ou widgets**.
 6. Ecrã bloqueado: mantém pressionado > *Personalizar* > *Ecrã bloqueado* > toca na zona dos widgets > **Scriptable** > escolhe o formato (retangular é o que mostra mais) > toca no widget > *Script*: `Nós Dois`.

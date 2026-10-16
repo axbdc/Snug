@@ -20,6 +20,7 @@ import { Sitios } from './ecras/Sitios';
 import { Momentos } from './ecras/Momentos';
 import { Nos } from './ecras/Nos';
 import { Entrar } from './ecras/Entrar';
+import { Configurar } from './ecras/Configurar';
 
 const p = new URLSearchParams(location.search);
 const tema = (p.get('tema') as any) || 'azul';
@@ -75,7 +76,7 @@ function Demo() {
   return (
     <Ctx.Provider value={valor as any}>
       <div className="app">
-        {sep === ('entrar' as any) ? <Entrar /> : (
+        {sep === ('configurar' as any) ? <Configurar /> : sep === ('entrar' as any) ? <Entrar /> : (
           <main className="pagina">
             {sep === 'sorteio' && <Sorteio ideias={ideias} carregado irPara={setSep} />}
             {sep === 'sitios' && <Sitios ideias={ideias} />}
@@ -84,7 +85,7 @@ function Demo() {
           </main>
         )}
       </div>
-      {sep !== ('entrar' as any) && <BarraNav atual={sep} onMudar={setSep} />}
+      {sep !== ('entrar' as any) && sep !== ('configurar' as any) && <BarraNav atual={sep} onMudar={setSep} />}
       <Festa />
     </Ctx.Provider>
   );

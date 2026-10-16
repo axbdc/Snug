@@ -12,6 +12,8 @@ import { definirPausa, enviarLocalizacao } from '../lib/localizacao';
 import { carregarIdeiasLisboa, NUM_IDEIAS_SEED } from '../data/seed';
 import type { Cor, Ideia, Localizacao, Perfil } from '../tipos';
 import { Interruptor, Segmentos } from '../componentes/Controlos';
+import { Avatar } from '../componentes/Avatar';
+import { Coracao } from '../componentes/Coracoes';
 
 const JUNTOS_M = 150;
 
@@ -38,54 +40,56 @@ function useContagem(alvo: number | null) {
   return valor;
 }
 
-/** Uma linha de elétrico entre os dois, com o elétrico a ir e vir. */
-function Linha({ eu, parceiro, juntos }: { eu: Perfil; parceiro: Perfil | null; juntos: boolean }) {
-  const xA = juntos ? 136 : 30;
-  const xB = juntos ? 164 : 270;
+/** Os dois bonecos ligados por um tracejado com dois corações, como no widget. */
+function Casal({ eu, parceiro, juntos }: { eu: Perfil; parceiro: Perfil | null; juntos: boolean }) {
+  const corOutro: Cor = parceiro?.cor ?? (eu.cor === 'azul' ? 'rosa' : 'azul');
+  const mola = { type: 'spring' as const, stiffness: 90, damping: 14 };
   return (
-    <svg viewBox="0 0 300 74" width="100%" height="74" aria-hidden style={{ display: 'block', marginBottom: 18 }}>
-      <motion.line
-        y1={26}
-        y2={26}
-        initial={false}
-        animate={{ x1: xA, x2: xB }}
-        transition={{ type: 'spring', stiffness: 70, damping: 15 }}
-        stroke="var(--amarelo)"
-        strokeWidth={7}
-        strokeLinecap="round"
-      />
-      {!juntos && (
-        <motion.g
-          animate={{ x: [xA + 22, xB - 46, xA + 22] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+    <div style={{ marginBottom: 18 }}>
+      <div className="casal" style={{ justifyContent: 'center' }}>
+        <motion.div initial={false} animate={{ x: juntos ? 26 : 0 }} transition={mola}>
+          <Avatar cor={eu.cor} tam={68} />
+        </motion.div>
+        <motion.div
+          className="casal-linha"
+          initial={false}
+          animate={{ opacity: juntos ? 0 : 0.55, flexGrow: juntos ? 0 : 1 }}
+          transition={mola}
+          style={{ minWidth: 0 }}
         >
-          <rect y={17} width={24} height={14} rx={4} fill="var(--tinta)" />
-          <rect x={4} y={20} width={6} height={5} rx={1} fill="var(--amarelo)" />
-          <rect x={14} y={20} width={6} height={5} rx={1} fill="var(--amarelo)" />
-        </motion.g>
-      )}
-      {[
-        { p: eu, x: xA },
-        { p: parceiro, x: xB },
-      ].map(({ p, x }, k) => (
-        <motion.g key={k} initial={false} animate={{ x }} transition={{ type: 'spring', stiffness: 70, damping: 15 }}>
-          <circle cy={26} r={11} fill="var(--papel)" stroke={corDe(p)} strokeWidth={5} />
-          {!juntos && (
-            <text
-              y={64}
-              textAnchor={k ? 'end' : 'start'}
-              x={k ? 12 : -12}
-              fill="var(--tinta)"
-              fontSize="14"
-              fontWeight="600"
-              fontFamily="Schibsted Grotesk, sans-serif"
-            >
-              {p?.nome ?? '...'}
-            </text>
-          )}
-        </motion.g>
-      ))}
-    </svg>
+          <motion.span
+            className="casal-coracoes"
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Coracao cor={corDe(eu)} tam={20} />
+            <span style={{ marginLeft: -7, marginTop: -6 }}>
+              <Coracao cor={parceiro ? corDe(parceiro) : 'var(--tinta-2)'} tam={15} />
+            </span>
+          </motion.span>
+        </motion.div>
+        <motion.div initial={false} animate={{ x: juntos ? -26 : 0, opacity: parceiro ? 1 : 0.45 }} transition={mola}>
+          <Avatar cor={corOutro} tam={68} />
+        </motion.div>
+      </div>
+      <AnimatePresence>
+        {juntos && (
+          <motion.div
+            initial={{ opacity: 0, y: 6, scale: 0.6 }}
+            animate={{ opacity: 1, y: -88, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={mola}
+            style={{ display: 'flex', justifyContent: 'center', height: 0 }}
+          >
+            <Coracao cor="var(--rosa)" tam={26} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 4px' }}>
+        <span className="casal-nome" style={{ width: 76 }}>{eu.nome}</span>
+        <span className="casal-nome" style={{ width: 76 }}>{parceiro?.nome ?? 'Por entrar'}</span>
+      </div>
+    </div>
   );
 }
 
@@ -160,7 +164,8 @@ export function Nos({ ideias, carregado }: { ideias: Ideia[]; carregado: boolean
       </header>
 
       <section className="papel distancia">
-        <Linha eu={eu!} parceiro={parceiro} juntos={juntos} />
+        <Casal eu={eu!} parceiro={parceiro} juntos={juntos} />
+        <p className="distancia-titulo">A nossa distância</p>
         <AnimatePresence mode="wait" initial={false}>
           {metros != null && !juntos ? (
             <motion.div key="num" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -196,9 +201,7 @@ export function Nos({ ideias, carregado }: { ideias: Ideia[]; carregado: boolean
       <div className="lista" style={{ marginTop: 12 }}>
         {pessoas.map(({ p, l }, k) => (
           <div key={k} className="linha-item">
-            <div className="avatar" style={{ background: corDe(p) }}>
-              {(p?.nome ?? '?').charAt(0).toUpperCase()}
-            </div>
+            <Avatar cor={p?.cor ?? (k ? (eu?.cor === 'azul' ? 'rosa' : 'azul') : eu?.cor)} tam={42} anel={false} />
             <div className="linha-corpo">
               <div className="linha-titulo">{p?.nome ?? 'Ainda não entrou'}</div>
               <div className="linha-meta">
@@ -219,13 +222,13 @@ export function Nos({ ideias, carregado }: { ideias: Ideia[]; carregado: boolean
           <Interruptor ligado={partilho} onChange={mudarPartilha} />
         </div>
         <div className="linha-opcao" style={{ display: 'block' }}>
-          <div style={{ fontWeight: 600, marginBottom: 10 }}>A minha cor</div>
+          <div style={{ fontWeight: 600, marginBottom: 10 }}>O meu boneco e a minha cor</div>
           <Segmentos
             valor={eu?.cor ?? 'azul'}
             onChange={mudarCor}
             opcoes={[
-              { valor: 'azul', rotulo: 'Azulejo' },
-              { valor: 'rosa', rotulo: 'Cor-de-rosa' },
+              { valor: 'azul', rotulo: 'Macaco azul' },
+              { valor: 'rosa', rotulo: 'Suricata rosa' },
             ]}
           />
         </div>

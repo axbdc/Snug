@@ -3,11 +3,12 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useSessao } from '../sessao';
 import { Azulejo } from '../componentes/Azulejo';
+import { Avatar } from '../componentes/Avatar';
 import type { Cor } from '../tipos';
 
 const OPCOES: { cor: Cor; nome: string }[] = [
-  { cor: 'azul', nome: 'Azulejo' },
-  { cor: 'rosa', nome: 'Cor-de-rosa' },
+  { cor: 'azul', nome: 'Macaco' },
+  { cor: 'rosa', nome: 'Suricata' },
 ];
 
 /** Primeira vez que cada um entra: nome e cor. */
@@ -37,7 +38,7 @@ export function Configurar() {
         <h1 className="marca-texto" style={{ fontSize: 54 }}>
           Quem és tu?
         </h1>
-        <p>A tua cor pinta a app quando entras com a tua conta.</p>
+        <p>O teu boneco e a tua cor aparecem na app e no widget da distância.</p>
         <div className="campo">
           <label htmlFor="nome">Nome</label>
           <input
@@ -66,6 +67,9 @@ export function Configurar() {
               <div className="opcao-cor-padrao">
                 <Azulejo tam={44} />
               </div>
+              <span style={{ position: 'absolute', top: 12, right: 12 }}>
+                <Avatar cor={o.cor} tam={54} anel={false} />
+              </span>
               <span>{o.nome}</span>
             </button>
           ))}

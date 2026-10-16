@@ -962,7 +962,7 @@ textarea.input {
   margin-bottom: 22px;
 }
 .opcao-cor {
-  height: 110px;
+  height: 120px;
   border-radius: 14px;
   overflow: hidden;
   position: relative;
@@ -1027,4 +1027,47 @@ textarea.input {
   color: var(--tinta-2);
   max-width: 30ch;
   margin: 0 auto;
+}
+
+/* ---------- Avatares (macaco e suricata) ---------- */
+.avatar-bicho {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.casal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.casal-linha {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background-image: linear-gradient(90deg, var(--tinta-2) 50%, transparent 0);
+  background-size: 9px 2px;
+  opacity: 0.55;
+}
+.casal-coracoes {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  background: var(--papel);
+  padding: 0 6px;
+}
+.casal-nome {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  text-align: center;
+}
+.distancia-titulo {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tinta-2);
+  margin-bottom: 6px;
 }

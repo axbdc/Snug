@@ -32,7 +32,7 @@ Abre o endereço que aparece no terminal.
 
 1. Faz push do projeto para um repositório no GitHub (o `.env.local` fica de fora pelo `.gitignore`).
 2. No Vercel: *Add New Project* > importa o repositório. O Vite é detetado sozinho.
-3. Em *Environment Variables* adiciona as quatro variáveis `VITE_FB_...` com os mesmos valores do `.env.local`.
+3. Em *Environment Variables* adiciona as variáveis `VITE_FIREBASE_...` (ver `.env.example`) com os mesmos valores do `.env.local`.
 4. *Deploy*.
 5. No Firebase: **Authentication** > *Settings* > *Authorized domains* > adiciona o domínio do Vercel.
 
@@ -55,7 +55,7 @@ Uma webapp não consegue criar widgets no iOS, por isso o widget usa a app grát
 5. Quando pedir localização, escolhe **Ao usar a app ou widgets**.
 6. Ecrã bloqueado: mantém pressionado > *Personalizar* > *Ecrã bloqueado* > toca na zona dos widgets > **Scriptable** > escolhe o formato (retangular é o que mostra mais) > toca no widget > *Script*: `Nós Dois`.
 
-Também podes pôr o mesmo script num widget do ecrã principal (aparece com o gradiente azul/rosa).
+O widget mostra "A nossa distância" e os vossos bonecos (macaco e suricata) ligados por corações. No ecrã bloqueado o iOS pinta-o no tom do teu fundo; no ecrã principal aparece a cores, como um pequeno letreiro de elétrico.
 
 Cada um faz isto no seu iPhone, com a sua própria conta.
 
